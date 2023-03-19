@@ -62,7 +62,7 @@ export const constantRoutes = [
     path: '/system',
     component: Layout,
     meta: {
-      title: '系统管理',
+      title: '用户管理',
       icon: 'el-icon-s-tools'
     },
     alwaysShow: true,
@@ -86,6 +86,35 @@ export const constantRoutes = [
         component: () => import('@/views/user/index'),
         name: 'UserAdd',
         meta: { title: '添加用户', icon: 'add' }
+      }
+    ]
+  },
+  {
+    path: '/questions',
+    component: Layout,
+    name: '题库管理',
+    meta: {
+      title: '题库管理',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'index',
+        name: '题库列表',
+        component: () => import('@/views/questions/index'),
+        meta: {
+          title: '题库列表',
+          icon: ''
+        }
+      },
+      {
+        path: 'list',
+        name: '题库列表',
+        component: () => import('@/views/questions/list'),
+        meta: {
+          title: '题库列表',
+          icon: ''
+        }
       }
     ]
   },
