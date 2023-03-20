@@ -69,7 +69,8 @@ service.interceptors.response.use(
         })
       }
       return Promise.reject(new Error(res.msg || 'Error'))
-    } if (res.code === 20000) {
+    }
+    if (res.code === 20000) {
       // Message({
       //   message: res.msg || '登陆成功',
       //   type: 'success',

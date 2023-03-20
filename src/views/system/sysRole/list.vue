@@ -59,17 +59,8 @@
         width="160"
       >
         <template slot-scope="scope">
-          {{ String(scope.row.isDeleted) === '0' ? '正常' : '已禁用' }}
-          <el-button
-            type="text"
-            size="small"
-            class="delBut non"
-            @click="statusHandle(scope.row)"
-          >
-            {{ scope.row.status == '1' ? '禁用' : '启用' }}
-          </el-button>
+          {{ String(scope.row.status) === '1' ? '已禁用' : '正常' }}
         </template>
-
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
 
@@ -104,7 +95,17 @@
           <el-input v-model="sysRole.gender" />
         </el-form-item>
         <el-form-item label="用户状态">
-          <el-input v-model="sysRole.status" />
+          <template slot-scope="scope">
+            <el-switch
+              v-model="sysRole.status"
+              inactive-color="#13ce66"
+              active-color="#ff4949"
+              inactive-text="开启"
+              active-text="禁用"
+              active-value="1"
+              inactive-value="0"
+            />
+          </template>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -137,7 +138,7 @@ export default {
       sysRole: {
         username: '',
         gender: '',
-        status: ''
+        status: 0
       },
       saveBtnDisabled: false
     }
@@ -148,6 +149,26 @@ export default {
   methods: { // 操作方法
     resetForm() {
       this.$refs.dataForm.resetFields()
+    },
+    // 状态修改
+    statusHandle(row) {
+      this.id = row.id
+      this.status = row.status
+      this.$confirm('确认调整该账号的状态?', '提示', {
+        'confirmButtonText': '确定',
+        'cancelButtonText': '取消',
+        'type': 'warning'
+      }).then(() => {
+        api.enableOrDisableUser({ 'id': this.id, 'status': !this.status ? 1 : 0 }).then(res => {
+          console.log('enableOrDisableUser', res)
+          if (String(res.code) === '1') {
+            this.$message.success('账号状态更改成功！')
+            this.handleQuery()
+          }
+        }).catch(err => {
+          this.$message.error('请求出错了：' + err)
+        })
+      })
     },
     // 当多选选项发生变化的时候调用
     handleSelectionChange(selection) {
@@ -197,8 +218,10 @@ export default {
       this.saveBtnDisabled = true // 防止表单重复提交
       // 根据id判断
       if (!this.sysRole.id) { // 添加
+        this.sysRole.status = parseInt(this.sysRole.status) // 将状态值转换为数字类型
         this.saveData()
       } else { // 修改
+        this.sysRole.status = parseInt(this.sysRole.status) // 将状态值转换为数字类型
         this.updateData()
       }
     },
