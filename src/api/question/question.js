@@ -65,11 +65,11 @@ export default {
    * @param {*} user
    * @returns
    */
-  save(user) {
+  save(question) {
     return request({
-      url: `${api_name}/save`,
+      url: `${api_name}/saveOrUpdate`,
       method: 'post',
-      data: user
+      data: question
     })
   },
 

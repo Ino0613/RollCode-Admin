@@ -56,7 +56,7 @@ export const constantRoutes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/home/Home')
+    component: (Home) => import('@/views/home/Home')
   },
   {
     path: '/system',
@@ -95,25 +95,52 @@ export const constantRoutes = [
     name: '题库管理',
     meta: {
       title: '题库管理',
-      icon: ''
+      icon: 'el-icon-s-tools'
     },
     children: [
-      {
-        path: 'index',
-        name: '题库列表',
-        component: () => import('@/views/questions/index'),
-        meta: {
-          title: '题库列表',
-          icon: ''
-        }
-      },
       {
         path: 'list',
         name: '题库列表',
         component: () => import('@/views/questions/list'),
         meta: {
           title: '题库列表',
-          icon: ''
+          icon: 'table'
+        }
+      },
+      {
+        path: 'add',
+        name: '单选题创建',
+        component: () => import('@/views/questions/add'),
+        meta: {
+          title: '单选题创建',
+          icon: 'el-icon-s-help'
+        }
+      },
+      {
+        path: 'addMore',
+        name: '多选题创建',
+        component: () => import('@/views/questions/addMore'),
+        meta: {
+          title: '多选题创建',
+          icon: 'el-icon-s-help'
+        }
+      },
+      {
+        path: 'addTF',
+        name: '判断题创建',
+        component: () => import('@/views/questions/addTF'),
+        meta: {
+          title: '判断题创建',
+          icon: 'el-icon-s-help'
+        }
+      },
+      {
+        path: 'addSAQ',
+        name: '简答题创建',
+        component: () => import('@/views/questions/addSAQ'),
+        meta: {
+          title: '简答题创建',
+          icon: 'el-icon-s-help'
         }
       }
     ]

@@ -1,5 +1,6 @@
 <template>
   <section class="app-main">
+    <!-- <tab :tabs="tabs" :active-index="activeIndex" @change-tab="handleChangeTab" @close-tab="handleCloseTab" @show-context-menu="handleShowContextMenu" /> -->
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
@@ -7,8 +8,12 @@
 </template>
 
 <script>
+// import Tab from '@/views/tagsview/Tab.vue'
 export default {
   name: 'AppMain',
+  // components: {
+  //   Tab
+  // },
   computed: {
     key() {
       return this.$route.path

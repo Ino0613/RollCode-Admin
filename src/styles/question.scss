@@ -1,0 +1,35 @@
+
+.addquestion {
+  .domain_title {
+    margin: 10px;
+    justify-content: space-between;
+    display: flex;
+    span {
+      color: #606266;
+      font-size: 14px;
+      align-items: center;
+      display: flex;
+    }
+    el-button {
+      background: #3a8ee6;
+    }
+  }
+  .linkDel {
+    color: #3a8ee6;
+    width: 70px;
+    text-align: center;
+  }
+  /deep/ .el-form-item__content {
+    display: flex;
+  }
+  form {
+    width: 520px;
+  }
+  .question-title {
+    font-size: 22px;
+    color: #88909c;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

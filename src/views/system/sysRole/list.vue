@@ -95,7 +95,7 @@
           <el-input v-model="sysRole.gender" />
         </el-form-item>
         <el-form-item label="用户状态">
-          <template slot-scope="scope">
+          <template>
             <el-switch
               v-model="sysRole.status"
               inactive-color="#13ce66"

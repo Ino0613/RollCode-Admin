@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Admin Template' // page title
+const name = defaultSettings.title || 'RollCode - 在线刷题平台' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -30,8 +30,8 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
-    port: 8090,
-    host: 'localhost',
+    port: port,
+    host: '0.0.0.0',
     open: true,
     overlay: {
       warnings: false,
