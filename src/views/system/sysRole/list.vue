@@ -227,7 +227,7 @@ export default {
     },
     // 重置查询表单
     resetData() {
-      console.log('重置查询表单')
+      // console.log('重置查询表单')
       this.searchObj = {}
       this.createTimes = []
       this.fetchData()

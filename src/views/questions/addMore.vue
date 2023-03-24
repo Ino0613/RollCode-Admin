@@ -58,10 +58,14 @@ export default {
     return {
       domainsSum: 0,
       removeList: [],
-      questionOptions: [],
+      questionOptions: [
+        { value: '' },
+        { value: '' },
+        { value: '' }
+      ],
       inputStyle: { 'flex': 1 },
       questionForm: {
-        'type': '',
+        'type': '2',
         'content': '',
         'answer': [],
         'options': [],
@@ -130,10 +134,13 @@ export default {
           }
           // console.log(formData)
           api.save(formData).then(response => {
-            console.log(response)
+            // 提示
+            this.$message.success(response.msg || '操作成功')
+            // 关闭弹框
+            this.$router.push('./list')
           })
         } else {
-          console.log('error submit!!')
+          this.$message.error('出现错误')
           return false
         }
       })

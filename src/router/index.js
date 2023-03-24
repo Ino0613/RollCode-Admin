@@ -90,12 +90,12 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/questions',
+    path: '/questions/list',
     component: Layout,
     name: '题库管理',
     meta: {
       title: '题库管理',
-      icon: 'el-icon-s-tools'
+      icon: 'el-icon-notebook-2'
     },
     children: [
       {
@@ -109,41 +109,70 @@ export const constantRoutes = [
       },
       {
         path: 'add',
-        name: '单选题创建',
+        name: 'add',
         component: () => import('@/views/questions/add'),
         meta: {
           title: '单选题创建',
-          icon: 'el-icon-s-help'
+          icon: 'el-icon-edit-outline'
         }
       },
       {
         path: 'addMore',
-        name: '多选题创建',
+        name: 'addMore',
         component: () => import('@/views/questions/addMore'),
         meta: {
           title: '多选题创建',
-          icon: 'el-icon-s-help'
+          icon: 'el-icon-edit-outline'
         }
       },
       {
         path: 'addTF',
-        name: '判断题创建',
+        name: 'addTF',
         component: () => import('@/views/questions/addTF'),
         meta: {
           title: '判断题创建',
-          icon: 'el-icon-s-help'
+          icon: 'el-icon-edit-outline'
         }
       },
       {
         path: 'addSAQ',
-        name: '简答题创建',
+        name: 'addSAQ',
         component: () => import('@/views/questions/addSAQ'),
         meta: {
           title: '简答题创建',
-          icon: 'el-icon-s-help'
+          icon: 'el-icon-edit-outline'
         }
       }
     ]
+  },
+  {
+    path: '/exam/list',
+    component: Layout,
+    name: '考试管理',
+    meta: {
+      title: '考试管理',
+      icon: 'el-icon-notebook-2'
+    },
+    children: [
+      {
+        path: 'list',
+        name: '考试列表',
+        component: () => import('@/views/exam/list'),
+        meta: {
+          title: '考试列表',
+          icon: 'table'
+        }
+      },
+      {
+        path: 'add',
+        name: 'add',
+        component: () => import('@/views/exam/add'),
+        meta: {
+          title: '考试创建',
+          icon: 'el-icon-edit-outline'
+        }
+      }
+    ]~
   },
   {
     path: '/example',

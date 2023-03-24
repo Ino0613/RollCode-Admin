@@ -48,7 +48,9 @@
         <el-input v-model="questionForm.description" type="textarea" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('questionForm')">立即创建</el-button>
+        <el-button type="primary" @click="submitForm('questionForm')">
+          {{ this.$route.params.id ? '立即更新' : '立即创建' }}
+        </el-button>
         <el-button @click="resetForm('questionForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -60,12 +62,16 @@ import api from '@/api/question/question'
 export default {
   data() {
     return {
-      domainsSum: 0,
-      removeList: [],
-      questionOptions: [],
+      questionId: null,
+      questionOptions: [
+        { value: '' },
+        { value: '' },
+        { value: '' }
+      ],
       inputStyle: { 'flex': 1 },
       questionForm: {
-        'type': '',
+        'id': '',
+        'type': '1',
         'content': '',
         'answer': [],
         'options': [],
@@ -77,7 +83,7 @@ export default {
           { required: true, message: '请选择题目类型', trigger: 'change' }
         ],
         content: [
-          { required: true, message: '请输入题目内容', trigger: 'change', pattern: /^[\u0391-\uFFE5A-Za-z]+$/ }
+          { required: true, message: '请输入题目内容', trigger: 'change' }
         ],
         answer: [
           { required: true, message: '请输入答案', trigger: 'blue' }
@@ -91,6 +97,11 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.$route.params.id != null) {
+      this.getById(this.$route.params.id)
+    }
+  },
   methods: {
     addOption() {
       this.questionOptions.push({ 'name': '', 'value': '' })
@@ -102,21 +113,19 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const params = { ...this.questionForm }
-
           params.options = this.questionOptions.map(obj => ({ ...obj, value: JSON.stringify(obj.value) }))
 
           // 将选项数据转换为一个带有字母标识的字符串数组
           const optionStrings = params.options.map((option, index) => {
             const value = JSON.parse(option.value)
             const name = String.fromCharCode(65 + index)
-            console.log(`name ${name} value:`, value)
+            // console.log(`name ${name} value:`, value)
             return `${name}. ${value}`
           })
           const optionsString = JSON.stringify(optionStrings)
 
           const answerStrings = JSON.parse(`["${this.questionForm.answer}"]`)
           const answerString = JSON.stringify(answerStrings)
-
           // 构建表单数据对象
           const formData = {
             type: this.questionForm.type,
@@ -126,18 +135,65 @@ export default {
             score: this.questionForm.score,
             difficulty: this.questionForm.difficulty
           }
-          console.log(formData)
-          api.save(formData).then(response => {
-            console.log(response)
-          })
+          // console.log(formData)
+          if (this.$route.params.id != null) {
+            formData.id = this.questionId
+            api.updateById(formData).then(response => {
+            // 提示
+              this.$message.success(response.msg || '修改成功')
+              // 关闭弹框
+              this.$router.push('./list')
+            })
+          } else {
+            api.save(formData).then(response => {
+            // 提示
+              this.$message.success(response.msg || '添加成功')
+              // 关闭弹框
+              this.$router.push('./list')
+            })
+          }
         } else {
-          console.log('error submit!!')
+          this.$message.error('出现错误')
           return false
         }
       })
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    updateById(id) {
+
+    },
+    getById(id) {
+      api.getById(id)
+        .then(response => {
+          this.questionId = id
+          const responseData = { ...response.data }
+          responseData.options = JSON.parse(responseData.options)
+          const optionStrings = responseData.options.map((option, index) => {
+            const optionStr = option.split('.')
+            const optionOne = optionStr[1].trim()
+            return {
+              value: optionOne
+            }
+          })
+          this.questionOptions = optionStrings
+          const answer = JSON.parse(responseData.answer)[0]
+          // 构建表单数据对象
+          const questionForm = {
+            type: responseData.type,
+            content: responseData.content,
+            options: this.questionOptions,
+            answer: answer,
+            score: responseData.score,
+            difficulty: responseData.difficulty
+          }
+          this.questionForm = questionForm
+          // console.log(questionForm)// 将解析后的数据存储到formData对象中
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }

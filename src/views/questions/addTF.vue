@@ -57,7 +57,7 @@ export default {
       domainsSum: 0,
       removeList: [],
       questionForm: {
-        type: '',
+        type: '3',
         content: '',
         options: [],
         answer: ['T', 'F'],
@@ -103,12 +103,15 @@ export default {
           })
 
           this.questionForm.options = JSON.stringify(optionsString)
-          console.log(this.questionForm.options)
+          // console.log(this.questionForm.options)
           api.save(this.questionForm).then(response => {
-            console.log(response)
+            // 提示
+            this.$message.success(response.msg || '操作成功')
+            // 关闭弹框
+            this.$router.push('./list')
           })
         } else {
-          console.log('error submit!!')
+          this.$message.error('出现错误')
           return false
         }
       })

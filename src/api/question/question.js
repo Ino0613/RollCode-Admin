@@ -67,7 +67,7 @@ export default {
    */
   save(question) {
     return request({
-      url: `${api_name}/saveOrUpdate`,
+      url: `${api_name}/save`,
       method: 'post',
       data: question
     })
@@ -76,17 +76,17 @@ export default {
   // 回显要修改的id信息
   getById(id) {
     return request({
-      url: `${api_name}/get/${id}`,
+      url: `${api_name}/${id}`,
       method: 'get'
     })
   },
 
   // 修改
-  updateById(user) {
+  updateById(question) {
     return request({
       url: `${api_name}/update`,
       method: 'put',
-      data: user
+      data: question
     })
   },
   // 修改---启用禁用接口

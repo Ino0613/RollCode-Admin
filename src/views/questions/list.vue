@@ -12,107 +12,113 @@
         <el-row style="display: flex">
           <el-button type="primary" icon="el-icon-search" size="mini" :loading="loading" @click="fetchData()">搜索</el-button>
           <el-button icon="el-icon-refresh" size="mini" @click="resetData">重置</el-button>
+          <div style="flex: 1" />
+          <el-button type="danger" icon="el-icon-error" size="mini" style="display: right" @click="resetData">批量删除</el-button>
         </el-row>
       </el-form>
     </div>
-    <el-scrollbar style="height: 100%">
-      <el-table
-        v-loading="listLoading"
-        :data="list"
-        stripe
-        border
-        style="width: 100%"
-        :header-cell-style="{'text-align':'center'}"
-        :cell-style="{'text-align':'center'}"
-        @selection-change="handleSelectionChange"
-      >
-
-        <el-table-column type="selection" fixed />
-        <el-table-column label="序号" width="49">
-          <template slot-scope="scope">
-            {{ (page - 1) * limit + scope.$index + 1 }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="类型"
-          prop="type"
-          width="66"
-          :filters="[{text: '单选题', value: 1}, {text: '多选题', value: 2}, {text: '判断题', value: 3}]"
-          :filter-method="filterHandler"
+    <div class="tabel-div">
+      <el-row />
+      <el-scrollbar style="height: 100%">
+        <el-table
+          v-loading="listLoading"
+          :data="list"
+          stripe
+          border
+          style="width: 100%"
+          :header-cell-style="{'text-align':'center'}"
+          :cell-style="{'text-align':'center'}"
+          @selection-change="handleSelectionChange"
         >
-          <template slot-scope="{ row }">
-            <span v-if="row.type === 1">单选题</span>
-            <span v-else-if="row.type === 2">多选题</span>
-            <span v-else-if="row.type === 3">判断题</span>
-            <span v-else>-</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="内容" prop="content" sortable />
-        <el-table-column
-          label="选项"
-          prop="options"
-        >
-          <template slot-scope="scope">
-            <div v-if="scope.row.options !== null">
-              {{ scope.row.options }}
-            </div>
-            <div v-else>
-              无选项
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="答案" prop="answer" />
-        <el-table-column
-          label="难度"
-          prop="difficulty"
-          width="66"
-          :filters="[{text: '简单', value: 1}, {text: '正常', value: 2}, {text: '困难', value: 3}]"
-          :filter-method="filterHandler"
-        >
-          <template slot-scope="{ row }">
-            <span v-if="row.difficulty === 1">简单</span>
-            <span v-else-if="row.difficulty === 2">正常</span>
-            <span v-else-if="row.difficulty === 3">困难</span>
-            <span v-else>-</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="分数" width="50" prop="score" />
-        <el-table-column label="创建时间" prop="createTime" />
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="136"
-        >
-          <template slot-scope="scope">
 
-            <el-button
-              icon="el-icon-search"
-              circle
-              size="small"
-              @click="handleClick(scope.row)"
-            />
-            <el-button
-              icon="el-icon-edit"
-              type="primary"
-              size="small"
-              circle
-            />
-            <el-button size="small" type="danger" icon="el-icon-delete" circle @click="removeDataById(scope.row.id)" />
-          </template>
-        </el-table-column>
+          <el-table-column type="selection" fixed />
+          <el-table-column label="序号" width="49">
+            <template slot-scope="scope">
+              {{ (page - 1) * limit + scope.$index + 1 }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="类型"
+            prop="type"
+            width="66"
+            :filters="[{text: '单选题', value: 1}, {text: '多选题', value: 2}, {text: '判断题', value: 3}]"
+            :filter-method="filterHandler"
+          >
+            <template slot-scope="{ row }">
+              <span v-if="row.type === 1">单选题</span>
+              <span v-else-if="row.type === 2">多选题</span>
+              <span v-else-if="row.type === 3">判断题</span>
+              <span v-else>-</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="内容" prop="content" sortable />
+          <el-table-column
+            label="选项"
+            prop="options"
+          >
+            <template slot-scope="scope">
+              <div v-if="scope.row.options !== null">
+                {{ scope.row.options }}
+              </div>
+              <div v-else>
+                无选项
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="答案" prop="answer" />
+          <el-table-column
+            label="难度"
+            prop="difficulty"
+            width="66"
+            :filters="[{text: '简单', value: 1}, {text: '正常', value: 2}, {text: '困难', value: 3}]"
+            :filter-method="filterHandler"
+          >
+            <template slot-scope="{ row }">
+              <span v-if="row.difficulty === 1">简单</span>
+              <span v-else-if="row.difficulty === 2">正常</span>
+              <span v-else-if="row.difficulty === 3">困难</span>
+              <span v-else>-</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="分数" width="50" prop="score" />
+          <el-table-column label="创建时间" prop="createTime" />
+          <el-table-column
+            fixed="right"
+            label="操作"
+            width="136"
+          >
+            <template slot-scope="scope">
 
-      </el-table>
+              <el-button
+                icon="el-icon-search"
+                circle
+                size="small"
+                @click="handleClick(scope.row)"
+              />
+              <el-button
+                icon="el-icon-edit"
+                type="primary"
+                size="small"
+                circle
+                @click="edit(scope.row.id)"
+              />
+              <el-button size="small" type="danger" icon="el-icon-delete" circle @click="removeDataById(scope.row.id)" />
+            </template>
+          </el-table-column>
 
-      <!-- 分页组件 -->
-      <el-pagination
-        :current-page="page"
-        :total="total"
-        :page-size="limit"
-        style="padding:30px 0; text-align:center"
-        layout="total,prev,pager,next,jumper"
-        @current-change="fetchData"
-      />
-    </el-scrollbar>
+        </el-table>
+
+        <!-- 分页组件 -->
+        <el-pagination
+          :current-page="page"
+          :total="total"
+          :page-size="limit"
+          style="padding:30px 0; text-align:center"
+          layout="total,prev,pager,next,jumper"
+          @current-change="fetchData"
+        />
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 <script>
@@ -160,7 +166,9 @@ export default {
       this.multipleSelection = selection
     },
     resetData() {
-    // your method logic here
+      this.searchObj = {}
+      this.createTimes = []
+      this.fetchData()
     },
     // 单个删除
     removeDataById(id) {
@@ -177,6 +185,26 @@ export default {
         // 提示信息
         this.$message.success(response.msg || '删除成功')
       })
+    },
+    // 批量删除
+    removeDataByIds(ids) {
+      this.$confirm('此操作将永久删除该记录，是否继续？', '提示', {
+        confirmButonText: '确定',
+        cancelButtonText: '取消',
+        type: 'waring'
+      }).then(() => {
+        return api.removeById(ids)
+      }).then((response) => {
+        // 点击确定，调用删除方法
+        // 刷新页面
+        this.fetchData(this.page)
+        // 提示信息
+        this.$message.success(response.msg || '删除成功')
+      })
+    },
+    // 回显修改数据
+    edit(id) {
+      this.$router.push({ name: 'add', params: { id: id }})
     }
   }
 }
