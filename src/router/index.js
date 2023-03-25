@@ -172,7 +172,7 @@ export const constantRoutes = [
           icon: 'el-icon-edit-outline'
         }
       }
-    ]~
+    ]
   },
   {
     path: '/example',
