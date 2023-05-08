@@ -51,6 +51,13 @@
               <span v-else>-</span>
             </template>
           </el-table-column>
+          <el-table-column
+            label="分类"
+            prop="categoryId"
+            width="66"
+            :filters="1"
+            :filter-method="filterHandler1"
+          />
           <el-table-column label="内容" prop="content" sortable />
           <el-table-column
             label="选项"
@@ -123,7 +130,7 @@
 </template>
 <script>
 import api from '@/api/question/question'
-
+import axios from 'axios'
 export default {
   // 定义数据模型
   data() {
@@ -132,6 +139,7 @@ export default {
       page: 1, // 当前页
       limit: 10, // 每页显示记录书
       total: 0, // 总记录数
+      categories: [],
       listLoading: false,
       loading: false,
       searchObj: {} // 条件对象
@@ -140,6 +148,13 @@ export default {
   // 页面渲染成功后获取数据
   created() {
     this.fetchData()
+    axios.get('/category/all')
+      .then(response => {
+        this.categories = response.data
+      })
+      .catch(error => {
+        console.error(error)
+      })
   },
 
   // 定义方法
@@ -205,6 +220,11 @@ export default {
     // 回显修改数据
     edit(id) {
       this.$router.push({ name: 'add', params: { id: id }})
+    },
+
+    getCategoryName(categoryId) {
+      const category = this.categories.find(category => category.id === categoryId)
+      return category ? category.name : ''
     }
   }
 }

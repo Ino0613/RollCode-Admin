@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <div>
+      <form action="" method="get">
+        <label>用户名</label><input placeholder="用户名" type="text" name="user" id="user" onfocus="showTips('user','用户名必须以字母开头！')"
+        onblur="check('user','用户名不能为空！')">
+        <span id="userspan"></span><br/>
+        <label>密码</label><input type="password" id="pwd"
+        placeholder="请输入密码" onblur="check('pwd1','不能为空')"/>
+        <span id="pwd1span"></span><br/><br/>
+        <label>确定密码</label><input type="password" id="pwd2" placeholder="请再次输入密码"/>
+        <span id="pwd2span"></span><br/><br/>
+        <label>Email</label><input type="email" id="email" placeholder="请输入Email"/>
+        <span id="emailspan"></span><br/><br/>
+        <label>姓名</label><input type="text" id="xingming" placeholder="请输入姓名"/>
+        <span id="xingmingspan"></span><br/><br/>
+        <label>性别</label><input type="radio" name="sex" value="M" placeholder=""/>男
+        <input type="radio" name="sex" value="F"/>女
+
+      </form>
+
+    </div>
+  </div>
+
+</body>
+<script>
+  function showTips(id,info){
+    //获取span元素，给出提示信息
+    document.getElementById(id+"span").innerHTML="<font color='red' size=2px>用户名首字母要大写";
+  }
+
+  function check(id,info){
+    var Vvalue = document.getElementById(id).value;
+    if(Vvalue==""){
+      if(document.getElementsByTagName(sex).check )
+      document.getElementById(id+"span").innerHTML="<font color='red'size=2px> 不能为空";
+    }
+  }
+</script>
+</html>

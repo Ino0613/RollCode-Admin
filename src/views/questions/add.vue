@@ -6,6 +6,11 @@
           <el-option label="单选题" value="1" />
         </el-select>
       </el-form-item>
+      <el-form-item label="题目分类" prop="categoryId" required>
+        <el-select v-model="questionForm.category" placeholder="请选择分类">
+          <el-option label="单选题" value="1" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="题目内容" prop="content" required>
         <el-input v-model="questionForm.content" />
       </el-form-item>
